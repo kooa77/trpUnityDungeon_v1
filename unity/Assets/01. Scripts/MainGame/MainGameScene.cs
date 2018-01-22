@@ -48,9 +48,15 @@ public class MainGameScene : MonoBehaviour
         }
         character.Init(resourceName);
 
-        Slider hpGuage = GameUI.CreateHPSlider();
-        character.LinkHPGuage(hpGuage);
+        CreateGameSlider(character, true, Vector3.zero);
+        CreateGameSlider(character, false, new Vector3(0.0f, 0.4f, 0.0f));
 
         return character;
+    }
+
+    void CreateGameSlider(Character character, bool isHPGuage, Vector3 position)
+    {
+        Slider slider = GameUI.CreateSlider(isHPGuage);
+        character.LinkGameGuage(slider, position, isHPGuage);
     }
 }

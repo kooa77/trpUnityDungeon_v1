@@ -35,7 +35,7 @@ public class Character : MapObject
         _state.Update();
 
         // UI
-        _hpGuage.value = _hp / 100.0f;
+        UpdateUI();
     }
 
 
@@ -72,6 +72,21 @@ public class Character : MapObject
     public int GetTileY() { return _tileY; }
 
     public bool IsLive() { return _isLive; }
+
+    public int GetHP()
+    {
+        return _hp;
+    }
+
+    public float GetDeltaAttackCooltime()
+    {
+        return _deltaAttackCooltime;
+    }
+    
+    public float GetAttackCooltime()
+    {
+        return _attackCooltime;
+    }
 
     int _damagePoint = 0;
     public int GetDamagePoint() { return _damagePoint; }
@@ -246,16 +261,34 @@ public class Character : MapObject
 
     // UI
 
-    Slider _hpGuage;
+    List<GameSlider> _gaugeList = new List<GameSlider>();
 
-    public void LinkHPGuage(Slider hpGuage)
+    void UpdateUI()
+    {
+        for(int i=0; i< _gaugeList.Count; i++)
+        {
+            _gaugeList[i].Update();
+        }
+    }
+
+    public void LinkGameGuage(Slider guage, Vector3 position, bool isHPGuage)
     {
         GameObject canvasObject = transform.Find("Canvas").gameObject;
-        hpGuage.transform.SetParent(canvasObject.transform);
-        hpGuage.transform.localPosition = Vector3.zero;
-        hpGuage.transform.localScale = Vector3.one;
+        guage.transform.SetParent(canvasObject.transform);
+        guage.transform.localPosition = position;
+        guage.transform.localScale = Vector3.one;
 
-        _hpGuage = hpGuage;
-        _hpGuage.value = _hp / 100.0f;
+        GameSlider slider = null;
+        if( isHPGuage )
+        {
+            slider = new HPSlider();
+            slider.Init(guage, this);
+        }
+        else
+        {
+            slider = new CooltimeSlider();
+            slider.Init(guage, this);
+        }
+        _gaugeList.Add(slider);
     }
 }

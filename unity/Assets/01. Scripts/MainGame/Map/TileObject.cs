@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class TileObject : MapObject
 {
-	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
 	}
+    
+    /*
+    private void OnMouseDown()
+    {
+        Debug.Log("Check " + Input.mousePosition);
+        gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+    }
+    */
 
 
     // Init

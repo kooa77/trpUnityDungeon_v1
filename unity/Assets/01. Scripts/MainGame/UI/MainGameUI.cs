@@ -20,11 +20,32 @@ public class MainGameUI : MonoBehaviour
     // Play UI
 
     public GameObject HPGuagePrefabs;
+    public GameObject CooltimeGuagePrefabs;
 
+    public Slider CreateSlider(bool isHPGauge)
+    {
+        if(isHPGauge)
+        {
+            return CreateGameSlider(HPGuagePrefabs);
+        }
+        return CreateGameSlider(CooltimeGuagePrefabs);
+    }
+    /*
     public Slider CreateHPSlider()
     {
-        GameObject hpObject = GameObject.Instantiate(HPGuagePrefabs);
-        Slider slider = hpObject.GetComponent<Slider>();
+        return CreateGameSlider(HPGuagePrefabs);
+    }
+
+    public Slider CreateCooltimeSlider()
+    {
+        return CreateGameSlider(CooltimeGuagePrefabs);
+    }
+    */
+
+    Slider CreateGameSlider(GameObject gaugePrefabs)
+    {
+        GameObject guageObject = GameObject.Instantiate(gaugePrefabs);
+        Slider slider = guageObject.GetComponent<Slider>();
         return slider;
     }
 }
