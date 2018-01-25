@@ -6,20 +6,13 @@ public class TileObject : MapObject
 {
 	void Start ()
     {
+        _type = eMapObjectType.TILE_OBJECT;
 	}
 	
 	void Update ()
     {
 	}
     
-    /*
-    private void OnMouseDown()
-    {
-        Debug.Log("Check " + Input.mousePosition);
-        gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
-    }
-    */
-
 
     // Init
 

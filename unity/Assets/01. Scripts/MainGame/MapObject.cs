@@ -6,6 +6,7 @@ public enum eMapObjectType
 {
     NONE,
     MONSTER,
+    TILE_OBJECT,
 }
 
 public class MapObject : MonoBehaviour
@@ -23,6 +24,9 @@ public class MapObject : MonoBehaviour
 
     // Info
     protected eMapObjectType _type = eMapObjectType.NONE;
+
+    protected int _tileX = 0;
+    protected int _tileY = 0;
 
     public eMapObjectType GetObjectType()
     {
@@ -48,6 +52,15 @@ public class MapObject : MonoBehaviour
     {
         Camera.main.transform.SetParent(transform);
         Camera.main.transform.localPosition = new Vector3(0.0f, 0.0f, Camera.main.transform.localPosition.z);
+    }
+
+    public int GetTileX() { return _tileX; }
+    public int GetTileY() { return _tileY; }
+
+    public void SetTilePosition(int tileX, int tileY)
+    {
+        _tileX = tileX;
+        _tileY = tileY;
     }
 
     // Layer
@@ -78,12 +91,5 @@ public class MapObject : MonoBehaviour
 
     virtual public void ReceiveObjectMessage(MessageParam msgParam)
     {
-        switch (msgParam.message)
-        {
-            case "Attack":
-                //Debug.Log("Attacked : " + msgParam.attackPoint);
-                //Damaged(msgParam.attackPoint);
-                break;
-        }
     }
 }

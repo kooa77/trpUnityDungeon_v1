@@ -9,6 +9,7 @@ public class IdleState : State
         if( eStateType.NONE != _nextState )
         {
             _character.ChangeState(_nextState);
+            return;
         }
 
         eMoveDirection moveDirection = eMoveDirection.NONE;

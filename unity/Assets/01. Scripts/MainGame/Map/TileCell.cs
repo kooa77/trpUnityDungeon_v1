@@ -14,13 +14,29 @@ public class TileCell
     Vector2 _position;
     List<List<MapObject>> _mapObjectMap = new List<List<MapObject>>();
 
-    public void Init()
+    int _tileX = 0;
+    int _tileY = 0;
+
+    public void Init(int x, int y)
     {
+        _tileX = x;
+        _tileY = y;
+
         for(int i=0; i<(int)eTileLayer.MAXCOUNT; i++)
         {
             List<MapObject> tileObjectList = new List<MapObject>();
             _mapObjectMap.Add(tileObjectList);
         }
+    }
+
+    public int GetTileX()
+    {
+        return _tileX;
+    }
+
+    public int GetTileY()
+    {
+        return _tileY;
     }
 
     public void SetPosition(float x, float y)
@@ -75,5 +91,63 @@ public class TileCell
             }
         }
         return true;
+    }
+
+    // 길찾기
+
+    bool _isPathfinded = false;
+    float _distanceFromStart = 0.0f;
+    TileCell _prevTileCell;
+
+    public void ResetPathfinding()
+    {
+        _isPathfinded = false;
+        _distanceFromStart = 0.0f;
+        _prevTileCell = null;
+    }
+
+    public void Pathfinded()
+    {
+        _isPathfinded = true;
+    }
+
+    public float GetDistanceFromStart()
+    {
+        return _distanceFromStart;
+    }
+
+    public void SetDistanceFromStart(float distance)
+    {
+        _distanceFromStart = distance;
+    }
+
+    public float GetDistanceWeight()
+    {
+        return 1.0f;
+    }
+
+    public void SetPrevPathfindingCell(TileCell tileCell)
+    {
+        _prevTileCell = tileCell;
+    }
+
+    public TileCell GetPrevPathfindingCell()
+    {
+        return _prevTileCell;
+    }
+
+    public bool IsPathfided()
+    {
+        return _isPathfinded;
+    }
+
+    public void SetPathfindingTestMark()
+    {
+        _mapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+    }
+
+    public void ResetPathfindingTestMark()
+    {
+        _mapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

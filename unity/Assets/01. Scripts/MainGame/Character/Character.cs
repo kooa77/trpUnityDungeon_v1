@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,9 +14,6 @@ public enum eMoveDirection
 public class Character : MapObject
 {
     protected GameObject _chracterView;
-
-    protected int _tileX = 0;
-    protected int _tileY = 0;
 
     protected bool _isLive = true;
     protected int _hp = 100;
@@ -67,9 +63,6 @@ public class Character : MapObject
         _chracterView.GetComponent<SpriteRenderer>().sortingLayerID = sortingID;
         _chracterView.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
-
-    public int GetTileX() { return _tileX; }
-    public int GetTileY() { return _tileY; }
 
     public bool IsLive() { return _isLive; }
 
@@ -256,6 +249,45 @@ public class Character : MapObject
         if (_attackCooltime <= _deltaAttackCooltime)
             return true;
         return false;
+    }
+
+
+    // AI
+
+    TileCell _goalTileCell;
+
+    public void SetGoalTileCell(TileCell selectTileCell)
+    {
+        _goalTileCell = selectTileCell;
+    }
+
+    public TileCell GetGoalTileCell()
+    {
+        return _goalTileCell;
+    }
+
+    Stack<TileCell> _pathfindingCellStatck = new Stack<TileCell>();
+
+    public void PushPathfindingTileCell(TileCell tileCell)
+    {
+        _pathfindingCellStatck.Push(tileCell);
+    }
+
+    public TileCell PopPathfindingTileCell()
+    {
+        return _pathfindingCellStatck.Pop();
+    }
+
+    public void ClearPathfindingTileCell()
+    {
+        _pathfindingCellStatck.Clear();
+    }
+
+    public bool IsEmptyPathfindingTileCell()
+    {
+        if (0 < _pathfindingCellStatck.Count)
+            return false;
+        return true;
     }
 
 

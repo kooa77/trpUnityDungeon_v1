@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MainGameScene : MonoBehaviour
 {
+    public CameraObject PlayCameraObject;
     public MainGameUI GameUI;
     public TileMap _TileMap;
 
@@ -26,6 +27,9 @@ public class MainGameScene : MonoBehaviour
         Character player = CreateCharacter("Player", "character01");
         Character monster = CreateCharacter("Monster", "character02");
         player.BecomeViewer();
+
+        //PlayCameraObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, PlayCameraObject.transform.position.z);
+        //PlayCameraObject.BecomeViewer();
     }
 
     Character CreateCharacter(string fileName, string resourceName)
