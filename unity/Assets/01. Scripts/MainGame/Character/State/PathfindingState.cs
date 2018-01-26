@@ -11,18 +11,11 @@ public class PathfindingState : State
     }
     eUpdateState _updateState = eUpdateState.PATHFINDING;
 
-    struct sPosition
-    {
-        public int x;
-        public int y;
-    }
-
     struct sPathCommand
     {
         public TileCell tileCell;
         public float heuristic;
     }
-    //Queue<sPathCommand> _pathfindingQueue = new Queue<sPathCommand>();
     List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
     TileCell _goalTileCell;
@@ -44,8 +37,6 @@ public class PathfindingState : State
             sPathCommand command;
             command.tileCell = startTileCell;
             command.heuristic = 0;
-            //_pathfindingQueue.Enqueue(command);
-            //_pathfindingQueue.Add(command);
             PushCommand(command);
         }
         else
@@ -89,7 +80,6 @@ public class PathfindingState : State
         // 길찾기 알고리즘이 시작
         if (0 != _pathfindingQueue.Count)
         {
-            //sPathCommand command = _pathfindingQueue.Dequeue();
             sPathCommand command = _pathfindingQueue[0];
             _pathfindingQueue.RemoveAt(0);
             if (false == command.tileCell.IsPathfided())
@@ -129,9 +119,15 @@ public class PathfindingState : State
 
                             sPathCommand newCommand;
                             newCommand.tileCell = searchTileCell;
-                            newCommand.heuristic = distance;
-                            //_pathfindingQueue.Enqueue(newCommand);
-                            //_pathfindingQueue.Add(newCommand);
+                            /*
+                            newCommand.heuristic = CalcSimpleHeuristic(
+                                                            command.tileCell,
+                                                            searchTileCell,
+                                                            _goalTileCell);
+                            */
+                            newCommand.heuristic = CalcAStarHeuristic(distance,
+                                                            searchTileCell,
+                                                            _goalTileCell);
                             PushCommand(newCommand);
                         }                
                         else
@@ -143,9 +139,15 @@ public class PathfindingState : State
 
                                 sPathCommand newCommand;
                                 newCommand.tileCell = searchTileCell;
-                                newCommand.heuristic = distance;
-                                //_pathfindingQueue.Enqueue(newCommand);
-                                //_pathfindingQueue.Add(newCommand);
+                                /*
+                                newCommand.heuristic = CalcSimpleHeuristic(
+                                                                    command.tileCell,
+                                                                    searchTileCell,
+                                                                    _goalTileCell);
+                                */
+                                newCommand.heuristic = CalcAStarHeuristic(distance,
+                                                            searchTileCell,
+                                                            _goalTileCell);
                                 PushCommand(newCommand);
                             }
                         }
@@ -194,6 +196,77 @@ public class PathfindingState : State
     void PushCommand(sPathCommand command)
     {
         _pathfindingQueue.Add(command);
+
         // Sorting
+        _pathfindingQueue.Sort(delegate (sPathCommand c1, sPathCommand c2)
+        {
+            if (c1.heuristic < c2.heuristic)
+                return -1;
+            if (c2.heuristic < c1.heuristic)
+                return 1;
+            return 0;
+        });
+    }
+
+    float CalcSimpleHeuristic(TileCell tileCell, TileCell nextTileCell, TileCell goalTileCell)
+    {
+        float heuristic = 0.0f;
+
+        int diffFromCurrent = 0;
+        int diffFromNext = 0;
+
+        // x 축
+        {
+            // 현재 타일부터 목표 까지의 거리
+            diffFromCurrent = tileCell.GetTileX() - _goalTileCell.GetTileX();
+            if (diffFromCurrent < 0)
+                diffFromCurrent = -diffFromCurrent;
+
+            // 검사할 타일부터 목표까지의 거리
+            diffFromNext = nextTileCell.GetTileX() - _goalTileCell.GetTileX();
+            if (diffFromNext < 0)
+                diffFromNext = -diffFromNext;
+
+            if (diffFromCurrent < diffFromNext)
+                heuristic += 1.0f;
+            else if (diffFromNext < diffFromCurrent)
+                heuristic -= 1.0f;
+        }
+
+        // y 축
+        {
+            // 현재 타일부터 목표 까지의 거리
+            diffFromCurrent = tileCell.GetTileY() - _goalTileCell.GetTileY();
+            if (diffFromCurrent < 0)
+                diffFromCurrent = -diffFromCurrent;
+
+            // 검사할 타일부터 목표까지의 거리
+            diffFromNext = nextTileCell.GetTileY() - _goalTileCell.GetTileY();
+            if (diffFromNext < 0)
+                diffFromNext = -diffFromNext;
+
+            if (diffFromCurrent < diffFromNext)
+                heuristic += 1.0f;
+            else if (diffFromNext < diffFromCurrent)
+                heuristic -= 1.0f;
+        }
+
+        return heuristic;
+    }
+
+    float CalcComplexHeuristic(TileCell nextTileCell, TileCell goalTileCell)
+    {
+        int distanceW = nextTileCell.GetTileX() - goalTileCell.GetTileX();
+        int distanceH = nextTileCell.GetTileY() - goalTileCell.GetTileY();
+
+        distanceW = distanceW * distanceW;
+        distanceH = distanceH * distanceH;
+
+        return (float)(distanceW + distanceH);
+    }
+
+    float CalcAStarHeuristic(float distanceFromStart, TileCell nextTileCell, TileCell goalTileCell)
+    {
+        return distanceFromStart + CalcComplexHeuristic(nextTileCell, goalTileCell);
     }
 }
