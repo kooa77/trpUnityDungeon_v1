@@ -27,6 +27,9 @@ public class Character : MapObject
 	// Update is called once per frame
 	void Update ()
     {
+        if (eStateType.NONE != _state.GetNextState())
+            ChangeState(_state.GetNextState());
+
         UpdateAttackCooltime();
         _state.Update();
 
@@ -131,7 +134,7 @@ public class Character : MapObject
         _state = _stateMap[eStateType.IDLE];
     }
 
-    public void ChangeState(eStateType nextState)
+    void ChangeState(eStateType nextState)
     {
         if(null != _state)
             _state.Stop();

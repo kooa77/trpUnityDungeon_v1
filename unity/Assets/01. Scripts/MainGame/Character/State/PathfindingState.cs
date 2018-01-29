@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class PathfindingState : State
 {
-    enum eUpdateState
+    protected enum eUpdateState
     {
         PATHFINDING,
         BUILD_PATH,
     }
-    eUpdateState _updateState = eUpdateState.PATHFINDING;
+    protected eUpdateState _updateState = eUpdateState.PATHFINDING;
 
-    struct sPathCommand
+    public struct sPathCommand
     {
         public TileCell tileCell;
         public float heuristic;
     }
-    List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
+    protected List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
-    TileCell _goalTileCell;
-    TileCell _reverseTileCell = null;
+    protected TileCell _goalTileCell;
+    protected TileCell _reverseTileCell = null;
 
     override public void Start()
     {
@@ -58,12 +58,13 @@ public class PathfindingState : State
 
     override public void Update()
     {
+        /*
         if (eStateType.NONE != _nextState)
         {
             _character.ChangeState(_nextState);
             return;
         }
-
+        */
         switch(_updateState)
         {
             case eUpdateState.PATHFINDING:
@@ -75,7 +76,7 @@ public class PathfindingState : State
         }
     }
 
-    void UpdatePathfinding()
+    protected void UpdatePathfinding()
     {
         // 길찾기 알고리즘이 시작
         if (0 != _pathfindingQueue.Count)
@@ -106,7 +107,8 @@ public class PathfindingState : State
 
                     TileCell searchTileCell =
                         GameManager.Instance.GetMap().GetTileCell(nextPosition.x, nextPosition.y);
-                    if (searchTileCell.CanMove() && false == searchTileCell.IsPathfided())
+                    //if (searchTileCell.CanMove() && false == searchTileCell.IsPathfided())
+                    if (searchTileCell.IsPathfindable() && false == searchTileCell.IsPathfided())
                     {
                         float distance = command.tileCell.GetDistanceFromStart() +
                             searchTileCell.GetDistanceWeight();
@@ -157,7 +159,7 @@ public class PathfindingState : State
         }
     }
 
-    void UpdateBuildPath()
+    protected void UpdateBuildPath()
     {
         if(null != _reverseTileCell)
         {

@@ -93,6 +93,21 @@ public class TileCell
         return true;
     }
 
+    public bool IsPathfindable()
+    {
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
+        {
+            List<MapObject> objectList = _mapObjectMap[layer];
+            for (int i = 0; i < objectList.Count; i++)
+            {
+                if (eMapObjectType.MONSTER != objectList[i].GetObjectType() &&
+                    false == objectList[i].CanMove())
+                    return false;
+            }
+        }
+        return true;
+    }
+
     // 길찾기
 
     bool _isPathfinded = false;

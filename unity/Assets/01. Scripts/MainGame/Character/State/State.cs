@@ -35,14 +35,22 @@ public class State
 
     virtual public void Update()
     {
+        /*
         if (eStateType.NONE != _nextState)
         {
             _character.ChangeState(_nextState);
+            return;
         }
+        */
     }
 
     public void NextState(eStateType state)
     {
         _nextState = state;
+    }
+
+    public eStateType GetNextState()
+    {
+        return _nextState;
     }
 }

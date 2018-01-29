@@ -6,12 +6,13 @@ public class PathfindingIdleState : State
 {
     override public void Update()
     {
+        /*
         if (eStateType.NONE != _nextState)
         {
             _character.ChangeState(_nextState);
             return;
         }
-
+        */
         TileCell goalTileCell = _character.GetGoalTileCell();
         if(null != goalTileCell)
         {
@@ -33,7 +34,8 @@ public class PathfindingIdleState : State
                         hit.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
 
                         TileCell selectTileCell = GameManager.Instance.GetMap().GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
-                        _character.SetGoalTileCell(selectTileCell);
+                        if( true == selectTileCell.IsPathfindable() )
+                            _character.SetGoalTileCell(selectTileCell);
                     }
                 }
             }

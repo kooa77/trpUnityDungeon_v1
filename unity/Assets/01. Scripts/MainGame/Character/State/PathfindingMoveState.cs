@@ -18,12 +18,13 @@ public class PathfindingMoveState : State
 
     public override void Update()
     {
+        /*
         if (eStateType.NONE != _nextState)
         {
             _character.ChangeState(_nextState);
             return;
         }
-
+        */
         if(false == _character.IsEmptyPathfindingTileCell())
         {
             TileCell tileCell = _character.PopPathfindingTileCell();
@@ -39,7 +40,14 @@ public class PathfindingMoveState : State
             eMoveDirection direction = GetDirection(toPosition, curPosition);
             _character.SetNextDirection(direction);
 
-            _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+            //_character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+            if (false == _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY()))
+            {
+                if (_character.IsAttackable())
+                    _nextState = eStateType.ATTACK;
+                else
+                    _nextState = eStateType.IDLE;
+            }
         }
         else
         {
