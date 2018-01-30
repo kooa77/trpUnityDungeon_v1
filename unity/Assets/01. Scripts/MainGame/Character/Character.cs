@@ -28,7 +28,9 @@ public class Character : MapObject
 	void Update ()
     {
         if (eStateType.NONE != _state.GetNextState())
+        {
             ChangeState(_state.GetNextState());
+        }
 
         UpdateAttackCooltime();
         _state.Update();

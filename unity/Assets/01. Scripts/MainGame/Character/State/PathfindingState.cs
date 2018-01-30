@@ -91,7 +91,6 @@ public class PathfindingState : State
                 if (command.tileCell.GetTileX() == _goalTileCell.GetTileX() &&
                     command.tileCell.GetTileY() == _goalTileCell.GetTileY())
                 {
-                    Debug.Log("Finded");
                     _reverseTileCell = command.tileCell;
                     _updateState = eUpdateState.BUILD_PATH;
                     return;
@@ -107,8 +106,7 @@ public class PathfindingState : State
 
                     TileCell searchTileCell =
                         GameManager.Instance.GetMap().GetTileCell(nextPosition.x, nextPosition.y);
-                    //if (searchTileCell.CanMove() && false == searchTileCell.IsPathfided())
-                    if (searchTileCell.IsPathfindable() && false == searchTileCell.IsPathfided())
+                    if (null != searchTileCell && searchTileCell.IsPathfindable() && false == searchTileCell.IsPathfided())
                     {
                         float distance = command.tileCell.GetDistanceFromStart() +
                             searchTileCell.GetDistanceWeight();
@@ -117,7 +115,7 @@ public class PathfindingState : State
                         {
                             searchTileCell.SetDistanceFromStart(distance);
                             searchTileCell.SetPrevPathfindingCell(command.tileCell);
-                            searchTileCell.SetPathfindingTestMark();
+                            //searchTileCell.SetPathfindingTestMark();
 
                             sPathCommand newCommand;
                             newCommand.tileCell = searchTileCell;
@@ -165,7 +163,7 @@ public class PathfindingState : State
         {
             _character.PushPathfindingTileCell(_reverseTileCell);
 
-            _reverseTileCell.ResetPathfindingTestMark();
+            //_reverseTileCell.ResetPathfindingTestMark();
             _reverseTileCell = _reverseTileCell.GetPrevPathfindingCell();
         }
         else

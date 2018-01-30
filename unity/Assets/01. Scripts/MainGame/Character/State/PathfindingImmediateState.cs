@@ -17,17 +17,18 @@ public class PathfindingImmediateState : PathfindingState
         }
 
         // 구축
-        while(eStateType.NONE != _nextState)
+        while(eStateType.MOVE != _nextState)
         {
             UpdateBuildPath();
         }
+    }
 
-        Debug.Log("Start");
+    public override void Update()
+    {
     }
 
     public override void Stop()
     {
         base.Stop();
-        Debug.Log("Stop");
     }
 }

@@ -8,6 +8,8 @@ public class PathfindingMoveState : State
     {
         base.Start();
         _character.PopPathfindingTileCell();
+
+        _moveDuration = _moveSpeed;
     }
 
     public override void Stop()
@@ -18,15 +20,15 @@ public class PathfindingMoveState : State
 
     public override void Update()
     {
-        /*
-        if (eStateType.NONE != _nextState)
-        {
-            _character.ChangeState(_nextState);
-            return;
-        }
-        */
         if(false == _character.IsEmptyPathfindingTileCell())
         {
+            if(_moveDuration < _moveSpeed)
+            {
+                _moveDuration += Time.deltaTime;
+                return;
+            }
+            _moveDuration = 0.0f;
+
             TileCell tileCell = _character.PopPathfindingTileCell();
 
             sPosition curPosition;
@@ -40,7 +42,6 @@ public class PathfindingMoveState : State
             eMoveDirection direction = GetDirection(toPosition, curPosition);
             _character.SetNextDirection(direction);
 
-            //_character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
             if (false == _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY()))
             {
                 if (_character.IsAttackable())
@@ -54,6 +55,12 @@ public class PathfindingMoveState : State
             _nextState = eStateType.IDLE;
         }
     }
+
+
+    // Move
+
+    float _moveSpeed = 0.1f;
+    float _moveDuration = 0.0f;
 
     eMoveDirection GetDirection(sPosition toPosition, sPosition curPosition)
     {
