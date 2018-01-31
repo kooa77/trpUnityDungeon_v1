@@ -115,7 +115,7 @@ public class PathfindingState : State
                         {
                             searchTileCell.SetDistanceFromStart(distance);
                             searchTileCell.SetPrevPathfindingCell(command.tileCell);
-                            //searchTileCell.SetPathfindingTestMark();
+                            searchTileCell.SetPathfindingTestMark();
 
                             sPathCommand newCommand;
                             newCommand.tileCell = searchTileCell;
@@ -163,7 +163,7 @@ public class PathfindingState : State
         {
             _character.PushPathfindingTileCell(_reverseTileCell);
 
-            //_reverseTileCell.ResetPathfindingTestMark();
+            _reverseTileCell.ResetPathfindingTestMark();
             _reverseTileCell = _reverseTileCell.GetPrevPathfindingCell();
         }
         else

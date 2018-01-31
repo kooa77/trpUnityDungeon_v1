@@ -8,6 +8,8 @@ public class AttackState : State
     {
         base.Start();
 
+        SoundPlayer.Instance.PlayEffect("player_hit");
+
         int moveX = _character.GetTileX();
         int moveY = _character.GetTileY();
         switch (_character.GetNextDirection())

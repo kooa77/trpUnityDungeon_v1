@@ -301,7 +301,7 @@ public class TileMap : MonoBehaviour
 
     public TileCell GetTileCell(int x, int y)
     {
-        if (0 <= x && y < _width && 0 <= x && y < _height)
+        if (0 <= x && x < _width && 0 <= y && y < _height)
             return _tileCellList[y, x];
         return null;
     }

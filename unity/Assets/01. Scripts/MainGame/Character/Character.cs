@@ -213,6 +213,11 @@ public class Character : MapObject
 
     public void DecreaseHP(int damagePoint)
     {
+        string filePath = "Prefabs/Effects/DamageEffect";
+        GameObject effectPrefabs = Resources.Load<GameObject>(filePath);
+        GameObject effectObject = GameObject.Instantiate(effectPrefabs, transform.position, Quaternion.identity);
+        GameObject.Destroy(effectObject, 1.0f);
+
         _chracterView.GetComponent<SpriteRenderer>().color =
             Color.red;
         Invoke("ResetColor", 0.1f);
@@ -327,5 +332,10 @@ public class Character : MapObject
             slider.Init(guage, this);
         }
         _gaugeList.Add(slider);
+    }
+
+    public void ShowMoveCursor(Vector3 position)
+    {
+        // todo
     }
 }
