@@ -48,4 +48,21 @@ public class MainGameUI : MonoBehaviour
         Slider slider = guageObject.GetComponent<Slider>();
         return slider;
     }
+
+
+    // Button Actions
+
+    public void OnAttack()
+    {
+        Debug.Log("Attack");
+        Character target = GameManager.Instance.TargetCharacter;
+
+        MessageParam msgParam = new MessageParam();
+        msgParam.sender = null;
+        msgParam.receiver = target;
+        msgParam.message = "Attack";
+        msgParam.attackPoint = 1000;
+
+        MessageSystem.Instance.Send(msgParam);
+    }
 }

@@ -119,15 +119,16 @@ public class PathfindingState : State
 
                             sPathCommand newCommand;
                             newCommand.tileCell = searchTileCell;
+                            newCommand.heuristic = distance;
                             /*
                             newCommand.heuristic = CalcSimpleHeuristic(
                                                             command.tileCell,
                                                             searchTileCell,
                                                             _goalTileCell);
-                            */
                             newCommand.heuristic = CalcAStarHeuristic(distance,
                                                             searchTileCell,
                                                             _goalTileCell);
+                            */
                             PushCommand(newCommand);
                         }                
                         else
@@ -139,15 +140,16 @@ public class PathfindingState : State
 
                                 sPathCommand newCommand;
                                 newCommand.tileCell = searchTileCell;
+                                newCommand.heuristic = distance;
                                 /*
                                 newCommand.heuristic = CalcSimpleHeuristic(
                                                                     command.tileCell,
                                                                     searchTileCell,
                                                                     _goalTileCell);
-                                */
                                 newCommand.heuristic = CalcAStarHeuristic(distance,
                                                             searchTileCell,
                                                             _goalTileCell);
+                                */
                                 PushCommand(newCommand);
                             }
                         }

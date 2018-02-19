@@ -36,4 +36,9 @@ public class GameManager
     {
         _tileMap = map;
     }
+
+
+    // Test Target Character
+
+    public Character TargetCharacter;
 }

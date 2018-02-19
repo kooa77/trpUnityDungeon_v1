@@ -162,11 +162,11 @@ public class TileMap : MonoBehaviour
         // 준비 작업
         for(int y=0; y<_height; y++)
         {
-            if(0 == (y%2))
+            if(0 == (y%5))
             {
                 for (int x = 0; x < _width; x++)
                 {
-                    if(0 == (x%2))
+                    if(0 == (x%3))
                     {
                         int spriteIndex = 139;
 
@@ -194,14 +194,14 @@ public class TileMap : MonoBehaviour
                 if(false == GetTileCell(x,y).CanMove())
                 {
                     // 연결되지 않은 블럭일 경우
-                    if(false == IsConnectedCell(x, y))
+                    if(false == IsConnectedCell(x, y, eMoveDirection.NONE))
                     {
                         // 랜덤한 한 방향으로 블럭이 연결될 때 까지 이어준다
                         eMoveDirection direction = (eMoveDirection)Random.Range(1, (int)eMoveDirection.DOWN + 1);
 
                         int searchTileX = x;
                         int searchTileY = y;
-                        while(false == IsConnectedCell(searchTileX, searchTileY))
+                        while(false == IsConnectedCell(searchTileX, searchTileY, direction))
                         {
                             switch(direction)
                             {
@@ -263,11 +263,34 @@ public class TileMap : MonoBehaviour
         */
     }
 
-    bool IsConnectedCell(int tileX, int tileY)
+    bool IsConnectedCell(int tileX, int tileY, eMoveDirection searchDirection)
     {
         // 주변에 하나라도 붙은 블럭이 있으면 연결된 블럭
         for(int direction=(int)eMoveDirection.LEFT; direction<(int)eMoveDirection.DOWN+1; direction++)
         {
+            if (eMoveDirection.NONE != searchDirection)
+            {
+                eMoveDirection reverseDirection = eMoveDirection.NONE;
+                switch(searchDirection)
+                {
+                    case eMoveDirection.LEFT:
+                        reverseDirection = eMoveDirection.RIGHT;
+                        break;
+                    case eMoveDirection.RIGHT:
+                        reverseDirection = eMoveDirection.LEFT;
+                        break;
+                    case eMoveDirection.UP:
+                        reverseDirection = eMoveDirection.DOWN;
+                        break;
+                    case eMoveDirection.DOWN:
+                        reverseDirection = eMoveDirection.UP;
+                        break;
+                }
+
+                if ((eMoveDirection)direction == reverseDirection)
+                    continue;
+            }
+
             int searchTileX = tileX;
             int searchTileY = tileY;
             switch((eMoveDirection)direction)

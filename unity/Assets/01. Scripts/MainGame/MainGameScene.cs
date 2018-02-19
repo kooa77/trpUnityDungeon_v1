@@ -34,6 +34,8 @@ public class MainGameScene : MonoBehaviour
         Character monster = CreateCharacter("Monster", "character02");
         player.BecomeViewer();
 
+        GameManager.Instance.TargetCharacter = monster;
+
         //PlayCameraObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, PlayCameraObject.transform.position.z);
         //PlayCameraObject.BecomeViewer();
     }
